@@ -19,7 +19,15 @@ from tqdm import tqdm
 
 
 class Weibo(object):
-    cookie = {'Cookie': 'your cookie'}  # 将your cookie替换成自己的cookie
+    cookie = {'_T_WM':'34853770235',
+    'XSRF-TOKEN':'eeb57a',
+    'WEIBOCN_FROM':'1110006030',
+    'SUB':'_2A25wvEaRDeRhGeNG71cX9S7OzzyIHXVQX2rZrDV6PUJbkdAKLWnzkW1NS0RzOJFapHs5ZWhMaIdPtn7mrJEMCCEe',
+    'SUHB':'0ebtEDMZlObOAx',
+    'SCF':'ApnmkP9Haov-qJVG5j7Pcm40-Fu0xOUsFTits8kij32_spSbR3645CVlWOei_x-r_4b1f_IsizfkTk5wi469u1k.',
+    'SSOLoginState':'1572353729',
+    'MLOGIN':'1',
+    'M_WEIBOCN_PARAMS':'luicode%3D10000011%26lfid%3D102803%26uicode%3D20000174'}
 
     def __init__(self,
                  filter=0,
@@ -818,6 +826,7 @@ class Weibo(object):
         """获取微博信息"""
         try:
             url = 'https://weibo.cn/u/%s' % (self.user_id)
+            print("get weibo info "+url)
             selector = self.deal_html(url)
             self.get_user_info(selector)  # 获取用户昵称、微博数、关注数、粉丝数
             page_num = self.get_page_num(selector)  # 获取微博总页数
@@ -898,8 +907,8 @@ def main():
         """值为0代表不将结果写入MySQL数据库,1代表写入;若要写入MySQL数据库，
         请先安装MySQL数据库和pymysql，pymysql安装方法为命令行运行:pip install pymysql"""
         mysql_write = 0
-        pic_download = 1  # 值为0代表不下载微博原始图片,1代表下载微博原始图片
-        video_download = 1  # 值为0代表不下载微博视频,1代表下载微博视频
+        pic_download = 0  # 值为0代表不下载微博原始图片,1代表下载微博原始图片
+        video_download = 0  # 值为0代表不下载微博视频,1代表下载微博视频
 
         wb = Weibo(filter, since_date, mongodb_write, mysql_write,
                    pic_download, video_download)
@@ -931,7 +940,7 @@ def main():
         1729370543 郭碧婷
         比如文件可以叫user_id_list.txt，读取文件中的user_id_list如下所示:
         user_id_list = wb.get_user_list('user_id_list.txt')"""
-        user_id_list = ['1669879400']
+        user_id_list = ['2186152883']
 
         wb.start(user_id_list)  # 爬取微博信息
     except Exception as e:
